@@ -573,7 +573,7 @@ def render_html(rows: list[dict[str, object]], verified: list[dict[str, object]]
 <body>
 <main>
   <h1>100-App Toolkit Research for Composio</h1>
-  <p class="lede">I built a repeatable research agent that classifies requested apps by auth model, API surface, self-serve access, MCP/toolkit readiness, and evidence quality. The important result is not just the table: it is the pattern map and verification loop.</p>
+  <p class="lede">I made a small research pipeline for the 100 apps in the assignment. For each app it records the auth path, whether access is self-serve or gated, the public API surface, MCP/tooling signal, buildability, blocker, and evidence link.</p>
   <p>
     <span class="pill">Live page: <a href="{LIVE_PAGE_URL}">RawGitHack</a></span>
     <span class="pill">Pages mirror: <a href="{PAGES_MIRROR_URL}">GitHub Pages</a></span>
@@ -588,47 +588,47 @@ def render_html(rows: list[dict[str, object]], verified: list[dict[str, object]]
     <div class="card"><div class="metric blue">{pct(high_conf, total)}</div><div class="label">high-confidence first pass</div></div>
   </section>
 
-  <h2>Headline Patterns</h2>
+  <h2>What I Found</h2>
   <div class="card">
-    <p><strong>Best immediate wins:</strong> developer platforms, productivity tools, support systems, and self-serve SaaS apps with clear REST/GraphQL docs.</p>
-    <p><strong>Main blocker:</strong> not API complexity itself, but access gates: app review, developer-token approval, enterprise tenants, merchant accounts, paid plans, or partner programs.</p>
-    <p><strong>Auth pattern:</strong> {html.escape(top_auth)}. OAuth dominates collaboration/SaaS apps; API keys dominate developer, scraping, email, and document APIs; fintech and ads are more gated.</p>
-    <p><strong>Easy wins:</strong> {html.escape(easy)}.</p>
-    <p><strong>Needs outreach/account setup:</strong> {html.escape(outreach)}.</p>
+    <p><strong>Best places to start:</strong> support tools, productivity apps, developer platforms, and API-first SaaS products. These usually have clear docs and a self-serve way to get started.</p>
+    <p><strong>The main blocker:</strong> access, not the API itself. The hard cases usually need app review, developer-token approval, an enterprise tenant, merchant credentials, a paid plan, or partner access.</p>
+    <p><strong>Auth pattern:</strong> {html.escape(top_auth)}. OAuth shows up most in collaboration and SaaS apps. API keys are common for developer, scraping, email, and document APIs. Ads and fintech are more likely to be gated.</p>
+    <p><strong>Apps I would try first:</strong> {html.escape(easy)}.</p>
+    <p><strong>Apps I would not start without access checks:</strong> {html.escape(outreach)}.</p>
   </div>
 
-  <h2>Recommended Build Queue</h2>
-  <p>This is the product-ops layer: if 100 candidates come in, the useful output is a ranked build queue, not only a spreadsheet.</p>
+  <h2>What I Would Build First</h2>
+  <p>If this were a real intake queue, I would not hand the team only a spreadsheet. I would separate the apps that look ready now from the ones that need OAuth setup or outreach first.</p>
   {table(build_queue, ["rank", "app", "category", "priority_score", "launch_motion"])}
 
-  <h2>Agent Workflow</h2>
+  <h2>How I Built It</h2>
   <div class="flow">
     <div><strong>1. Input</strong><br><span class="small">100 apps from assignment, category, app, website hint.</span></div>
-    <div><strong>2. Evidence</strong><br><span class="small">Prefer official docs/API/auth pages. Avoid forum-only evidence.</span></div>
-    <div><strong>3. Classify</strong><br><span class="small">Auth, self-serve/gated, API surface, MCP signal, verdict.</span></div>
-    <div><strong>4. Confidence</strong><br><span class="small">High, Medium, Low based on docs clarity and fetchability.</span></div>
-    <div><strong>5. Verify</strong><br><span class="small">20-app stratified manual check. Corrections shown honestly.</span></div>
+    <div><strong>2. Evidence</strong><br><span class="small">Use official docs/API/auth pages wherever possible.</span></div>
+    <div><strong>3. Classify</strong><br><span class="small">Auth, access type, API surface, MCP signal, verdict.</span></div>
+    <div><strong>4. Flag Risk</strong><br><span class="small">Mark unclear or gated rows for human review.</span></div>
+    <div><strong>5. Check</strong><br><span class="small">Manually review a mixed sample and keep misses visible.</span></div>
   </div>
 
   <h2>Buildability Matrix by Category</h2>
   {table(by_cat_rows, ["category", "ready_or_buildable", "gated", "needs_discovery", "wrapper"])}
 
-  <h2>Verification Summary</h2>
+  <h2>How I Checked The Work</h2>
   <div class="card">
-    <p><strong>Sample result:</strong> {correct_verified}/{len(verified)} checked rows were clear matches against the linked docs; {len(misses)}/{len(verified)} were left as partials needing follow-up instead of being forced into a false confident answer.</p>
-    <p><strong>Accuracy loop:</strong> the first pass treated some app/product pages as potentially API-ready. Manual doc checks added a stricter rule: if public API docs are not clearly discoverable, mark the app gated or unclear and flag it for human review.</p>
-    <p><strong>Verification stack:</strong> deterministic agent rules, lightweight docs fetch probes, official evidence URLs, manual spot checks, and headless browser render checks for the final HTML/PDF.</p>
+    <p><strong>Sample result:</strong> {correct_verified}/{len(verified)} checked rows matched the linked docs clearly. {len(misses)}/{len(verified)} were left as partials because I could not prove the API access path well enough from public docs.</p>
+    <p><strong>What changed after checking:</strong> the first pass was too willing to treat a product page as a sign that an API was usable. I tightened the rule: if I could not find clear public API docs, I marked the app gated or unclear and flagged it for human review.</p>
+    <p><strong>How I checked it:</strong> I used the script output, docs fetch probes, official evidence links, manual spot checks, and a headless browser render check for the final HTML/PDF.</p>
   </div>
 
   <h2>Verification Sample</h2>
-  <p>20 apps were manually spot-checked across easy self-serve APIs, OAuth-heavy SaaS, gated enterprise/ads/fintech APIs, and unclear edge cases. Partial results are left visible because the assignment explicitly values accuracy over pretending the agent is perfect.</p>
+  <p>I manually checked 20 apps across easy APIs, OAuth-heavy SaaS tools, gated enterprise/ads/fintech APIs, and unclear edge cases. I left partials visible because hiding them would make the report less useful.</p>
   {table(verified, ["app", "category", "agent_verdict", "agent_auth", "manual_check", "verification_note", "evidence_url"])}
 
-  <h2>First-Pass Misses and Caveats</h2>
+  <h2>What I Would Double-Check</h2>
   <div class="card">
     <p><strong>Misses / partials:</strong> {html.escape(", ".join(str(r["app"]) for r in misses) or "None in sampled rows")}.</p>
-    <p><strong>Rule added after verification:</strong> apps with product pages but no clear public API docs are not marked ready, even if the company likely has internal APIs.</p>
-    <p><strong>Known limitation:</strong> this agent does not create paid accounts, complete OAuth app reviews, or enter partner programs. Gated status is a finding, not a failure.</p>
+    <p><strong>Rule after verification:</strong> a product website is not enough. If clear public API docs are missing, I do not mark the app ready.</p>
+    <p><strong>Limit:</strong> I did not create paid accounts, complete OAuth app reviews, or enter partner programs. If an app is gated, that is the finding.</p>
   </div>
 
   <h2>Full 100-App Table</h2>
