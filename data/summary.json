@@ -1,0 +1,173 @@
+{
+  "total_apps": 100,
+  "self_serve_likely": 80,
+  "gated_or_approval_needed": 20,
+  "top_auth_methods": [
+    [
+      "OAuth2",
+      47
+    ],
+    [
+      "API key / token",
+      31
+    ],
+    [
+      "Unclear / account-based",
+      7
+    ],
+    [
+      "API key",
+      3
+    ],
+    [
+      "API token",
+      2
+    ],
+    [
+      "None / CLI",
+      2
+    ],
+    [
+      "API key / Basic",
+      1
+    ],
+    [
+      "Bot token",
+      1
+    ],
+    [
+      "Consumer key / Basic",
+      1
+    ],
+    [
+      "Basic auth",
+      1
+    ],
+    [
+      "API key + OAuth2",
+      1
+    ],
+    [
+      "API key / signed requests",
+      1
+    ],
+    [
+      "Gateway credentials",
+      1
+    ],
+    [
+      "Enterprise Google Cloud auth",
+      1
+    ]
+  ],
+  "verdicts": [
+    [
+      "Buildable with auth setup",
+      45
+    ],
+    [
+      "Ready for toolkit",
+      33
+    ],
+    [
+      "Gated / needs outreach",
+      20
+    ],
+    [
+      "Buildable wrapper",
+      2
+    ]
+  ],
+  "confidence": [
+    [
+      "High",
+      74
+    ],
+    [
+      "Medium",
+      23
+    ],
+    [
+      "Low",
+      3
+    ]
+  ],
+  "by_category": {
+    "CRM and Sales": {
+      "Buildable with auth setup": 6,
+      "Ready for toolkit": 3,
+      "Gated / needs outreach": 1
+    },
+    "Support and Helpdesk": {
+      "Buildable with auth setup": 4,
+      "Ready for toolkit": 6
+    },
+    "Communications and Messaging": {
+      "Buildable with auth setup": 6,
+      "Ready for toolkit": 3,
+      "Gated / needs outreach": 1
+    },
+    "Marketing, Ads, Email and Social": {
+      "Gated / needs outreach": 3,
+      "Buildable with auth setup": 4,
+      "Ready for toolkit": 3
+    },
+    "Ecommerce": {
+      "Buildable with auth setup": 3,
+      "Ready for toolkit": 4,
+      "Gated / needs outreach": 3
+    },
+    "Data, SEO and Scraping": {
+      "Ready for toolkit": 7,
+      "Buildable wrapper": 1,
+      "Gated / needs outreach": 2
+    },
+    "Developer, Infra and Data platforms": {
+      "Buildable with auth setup": 7,
+      "Ready for toolkit": 2,
+      "Gated / needs outreach": 1
+    },
+    "Productivity and Project Management": {
+      "Buildable with auth setup": 9,
+      "Ready for toolkit": 1
+    },
+    "Finance and Fintech": {
+      "Buildable with auth setup": 6,
+      "Ready for toolkit": 1,
+      "Gated / needs outreach": 3
+    },
+    "AI, Research and Media-native": {
+      "Gated / needs outreach": 6,
+      "Ready for toolkit": 3,
+      "Buildable wrapper": 1
+    }
+  },
+  "easy_wins": [
+    "HubSpot",
+    "Pipedrive",
+    "Attio",
+    "Twenty",
+    "Podio",
+    "Zoho CRM",
+    "Close",
+    "Copper",
+    "Zendesk",
+    "Intercom",
+    "Freshdesk",
+    "Front"
+  ],
+  "outreach_needed": [
+    "DealCloud",
+    "WhatsApp Business",
+    "Google Ads",
+    "Meta Ads",
+    "LinkedIn Ads",
+    "Salesforce Commerce Cloud",
+    "Amazon Selling Partner",
+    "fanbasis",
+    "Waterfall.io",
+    "Clay",
+    "Snowflake",
+    "Paygent Connect"
+  ]
+}

@@ -1,0 +1,21 @@
+app,category,agent_verdict,agent_auth,manual_check,verification_note,evidence_url
+GitHub,"Developer, Infra and Data platforms",Buildable with auth setup,OAuth2,correct,Official REST docs and widely available token/OAuth flows confirm immediate buildability.,https://docs.github.com/en/rest
+Slack,Communications and Messaging,Buildable with auth setup,OAuth2,correct,Official platform docs confirm OAuth-heavy but mature agent toolkit target.,https://api.slack.com/
+Stripe,Finance and Fintech,Buildable with auth setup,API key + OAuth2,correct,"Official API docs confirm API-key-first, broad REST surface, and mature test mode.",https://docs.stripe.com/api
+Notion,Productivity and Project Management,Buildable with auth setup,OAuth2,correct,Official developer docs confirm OAuth/API integration path.,https://developers.notion.com/
+Twilio,Communications and Messaging,Ready for toolkit,API key / Basic,correct,Official docs confirm API key/basic style auth and broad REST surface.,https://www.twilio.com/docs/usage/api
+Google Ads,"Marketing, Ads, Email and Social",Gated / needs outreach,OAuth2,correct,Official docs confirm OAuth plus developer token/application approval gate.,https://developers.google.com/google-ads/api/docs/start
+LinkedIn Ads,"Marketing, Ads, Email and Social",Gated / needs outreach,OAuth2,correct,Microsoft/LinkedIn docs confirm marketing APIs are permissioned and review constrained.,https://learn.microsoft.com/en-us/linkedin/marketing/
+WhatsApp Business,Communications and Messaging,Gated / needs outreach,Unclear / account-based,correct,Meta docs confirm business setup and permission/app review requirements.,https://developers.facebook.com/docs/whatsapp
+Amazon Selling Partner,Ecommerce,Gated / needs outreach,API key / token,correct,Official SP-API docs confirm LWA/AWS/app-review complexity.,https://developer-docs.amazon.com/sp-api/
+PitchBook,Finance and Fintech,Gated / needs outreach,Unclear / account-based,correct,Public PitchBook API page indicates commercial/enterprise access rather than open self-serve.,https://pitchbook.com/data/api
+Linear,Productivity and Project Management,Buildable with auth setup,OAuth2,correct,Official docs confirm GraphQL API and clear self-serve developer access.,https://developers.linear.app/docs/graphql/working-with-the-graphql-api
+Monday.com,Productivity and Project Management,Buildable with auth setup,OAuth2,correct,Official docs confirm GraphQL API surface.,https://developer.monday.com/api-reference/docs
+Airtable,Productivity and Project Management,Buildable with auth setup,OAuth2,correct,Official developer docs confirm self-serve Web API.,https://airtable.com/developers/web/api/introduction
+Salesforce Commerce Cloud,Ecommerce,Gated / needs outreach,Unclear / account-based,correct,Official docs exist but practical access needs Commerce Cloud tenant/admin setup.,https://developer.salesforce.com/docs/commerce
+fanbasis,Ecommerce,Gated / needs outreach,API key / token,correct,No clear public API docs were visible from the provided site hint; marked unclear/gated.,https://www.fanbasis.com/
+Consensus,"AI, Research and Media-native",Gated / needs outreach,API key / token,partial,"Public app site is clear, but OAuth/API availability needs direct confirmation.",https://consensus.app/
+Otter AI,"AI, Research and Media-native",Gated / needs outreach,API key / token,partial,"Prompt hints at MCP, but public API breadth needs manual follow-up.",https://help.otter.ai/
+NotebookLM,"AI, Research and Media-native",Gated / needs outreach,Enterprise Google Cloud auth,correct,Consumer NotebookLM lacks a general public API; Gemini Enterprise is adjacent but not equivalent.,https://cloud.google.com/gemini/docs
+Sherlock,"Data, SEO and Scraping",Buildable wrapper,None / CLI,correct,"GitHub project is CLI/open-source, not a SaaS API; wrapper verdict is appropriate.",https://github.com/sherlock-project/sherlock
+Reducto,"AI, Research and Media-native",Ready for toolkit,API key / token,correct,Official docs show document parsing API and API-key style integration.,https://docs.reducto.ai/
