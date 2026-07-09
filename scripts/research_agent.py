@@ -514,6 +514,7 @@ def render_html(rows: list[dict[str, object]], verified: list[dict[str, object]]
         for category, counts in summary["by_category"].items()
     ]
     misses = [r for r in verified if r["manual_check"] != "correct"]
+    correct_verified = len(verified) - len(misses)
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -611,6 +612,13 @@ def render_html(rows: list[dict[str, object]], verified: list[dict[str, object]]
 
   <h2>Buildability Matrix by Category</h2>
   {table(by_cat_rows, ["category", "ready_or_buildable", "gated", "needs_discovery", "wrapper"])}
+
+  <h2>Verification Summary</h2>
+  <div class="card">
+    <p><strong>Sample result:</strong> {correct_verified}/{len(verified)} checked rows were clear matches against the linked docs; {len(misses)}/{len(verified)} were left as partials needing follow-up instead of being forced into a false confident answer.</p>
+    <p><strong>Accuracy loop:</strong> the first pass treated some app/product pages as potentially API-ready. Manual doc checks added a stricter rule: if public API docs are not clearly discoverable, mark the app gated or unclear and flag it for human review.</p>
+    <p><strong>Verification stack:</strong> deterministic agent rules, lightweight docs fetch probes, official evidence URLs, manual spot checks, and headless browser render checks for the final HTML/PDF.</p>
+  </div>
 
   <h2>Verification Sample</h2>
   <p>20 apps were manually spot-checked across easy self-serve APIs, OAuth-heavy SaaS, gated enterprise/ads/fintech APIs, and unclear edge cases. Partial results are left visible because the assignment explicitly values accuracy over pretending the agent is perfect.</p>
