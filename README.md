@@ -2,6 +2,12 @@
 
 Submission artifact for Composio's AI Product Ops Intern take-home.
 
+## Links
+
+- Live case study: https://raw.githack.com/mangod12/composio-toolkit-research-agent/master/index.html
+- GitHub Pages mirror: https://mangod12.github.io/composio-toolkit-research-agent/
+- Source repo: https://github.com/mangod12/composio-toolkit-research-agent
+
 ## What this does
 
 This repo contains a deterministic research pipeline for classifying 100 requested apps by:

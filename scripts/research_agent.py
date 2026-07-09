@@ -19,6 +19,9 @@ VERIFIED_CSV = DATA / "verified_sample.csv"
 SUMMARY_JSON = DATA / "summary.json"
 HTML_OUT = ROOT / "index.html"
 FETCH_TIMEOUT_SECONDS = 5
+LIVE_PAGE_URL = "https://raw.githack.com/mangod12/composio-toolkit-research-agent/master/index.html"
+PAGES_MIRROR_URL = "https://mangod12.github.io/composio-toolkit-research-agent/"
+SOURCE_REPO_URL = "https://github.com/mangod12/composio-toolkit-research-agent"
 
 
 @dataclass(frozen=True)
@@ -571,8 +574,9 @@ def render_html(rows: list[dict[str, object]], verified: list[dict[str, object]]
   <h1>100-App Toolkit Research for Composio</h1>
   <p class="lede">I built a repeatable research agent that classifies requested apps by auth model, API surface, self-serve access, MCP/toolkit readiness, and evidence quality. The important result is not just the table: it is the pattern map and verification loop.</p>
   <p>
-    <span class="pill">Live page: <a href="https://mangod12.github.io/composio-toolkit-research-agent/">GitHub Pages</a></span>
-    <span class="pill">Source repo: <a href="https://github.com/mangod12/composio-toolkit-research-agent">GitHub</a></span>
+    <span class="pill">Live page: <a href="{LIVE_PAGE_URL}">RawGitHack</a></span>
+    <span class="pill">Pages mirror: <a href="{PAGES_MIRROR_URL}">GitHub Pages</a></span>
+    <span class="pill">Source repo: <a href="{SOURCE_REPO_URL}">GitHub</a></span>
     <span class="pill">Run: <code>python scripts/research_agent.py</code></span>
   </p>
 
