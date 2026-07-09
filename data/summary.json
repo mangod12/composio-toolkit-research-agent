@@ -143,18 +143,90 @@
     }
   },
   "easy_wins": [
-    "HubSpot",
-    "Pipedrive",
-    "Attio",
     "Twenty",
-    "Podio",
-    "Zoho CRM",
     "Close",
     "Copper",
-    "Zendesk",
-    "Intercom",
     "Freshdesk",
-    "Front"
+    "Pylon",
+    "Gorgias",
+    "Telegram",
+    "Klaviyo",
+    "systeme.io",
+    "SendGrid",
+    "BigCommerce",
+    "Squarespace"
+  ],
+  "build_queue": [
+    {
+      "rank": 1,
+      "app": "Twenty",
+      "category": "CRM and Sales",
+      "priority_score": 95,
+      "launch_motion": "Build now: self-serve API and simple credential path"
+    },
+    {
+      "rank": 2,
+      "app": "Close",
+      "category": "CRM and Sales",
+      "priority_score": 95,
+      "launch_motion": "Build now: self-serve API and simple credential path"
+    },
+    {
+      "rank": 3,
+      "app": "Copper",
+      "category": "CRM and Sales",
+      "priority_score": 95,
+      "launch_motion": "Build now: self-serve API and simple credential path"
+    },
+    {
+      "rank": 4,
+      "app": "Freshdesk",
+      "category": "Support and Helpdesk",
+      "priority_score": 95,
+      "launch_motion": "Build now: self-serve API and simple credential path"
+    },
+    {
+      "rank": 5,
+      "app": "Pylon",
+      "category": "Support and Helpdesk",
+      "priority_score": 95,
+      "launch_motion": "Build now: self-serve API and simple credential path"
+    },
+    {
+      "rank": 6,
+      "app": "Gorgias",
+      "category": "Support and Helpdesk",
+      "priority_score": 95,
+      "launch_motion": "Build now: self-serve API and simple credential path"
+    },
+    {
+      "rank": 7,
+      "app": "Telegram",
+      "category": "Communications and Messaging",
+      "priority_score": 95,
+      "launch_motion": "Build now: self-serve API and simple credential path"
+    },
+    {
+      "rank": 8,
+      "app": "Klaviyo",
+      "category": "Marketing, Ads, Email and Social",
+      "priority_score": 95,
+      "launch_motion": "Build now: self-serve API and simple credential path"
+    },
+    {
+      "rank": 9,
+      "app": "systeme.io",
+      "category": "Marketing, Ads, Email and Social",
+      "priority_score": 95,
+      "launch_motion": "Build now: self-serve API and simple credential path"
+    },
+    {
+      "rank": 10,
+      "app": "SendGrid",
+      "category": "Marketing, Ads, Email and Social",
+      "priority_score": 95,
+      "launch_motion": "Build now: self-serve API and simple credential path"
+    }
   ],
   "outreach_needed": [
     "DealCloud",

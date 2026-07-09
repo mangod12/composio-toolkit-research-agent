@@ -187,7 +187,23 @@ EXISTING_MCP = {
     "Stripe": "Community MCP likely",
 }
 
-GRAPHQL_APPS = {"Monday.com", "Linear", "GitHub", "Shopify"}
+API_SURFACE_OVERRIDES = {
+    "GitHub": "GraphQL + REST",
+    "Shopify": "GraphQL + REST",
+    "Linear": "GraphQL",
+    "Monday.com": "GraphQL",
+    "Magento (Adobe Commerce)": "GraphQL + REST",
+    "Attio": "REST",
+    "Front": "REST",
+    "Gorgias": "REST",
+    "Pinterest": "REST",
+    "WooCommerce": "REST",
+    "Jira": "REST",
+    "Asana": "REST",
+    "ClickUp": "REST",
+    "QuickBooks": "REST",
+    "Neo4j": "REST",
+}
 LIMITED_OR_UNCLEAR_SURFACE = {
     "fanbasis", "Waterfall.io", "Consensus", "NotebookLM", "Fathom",
     "Otter AI", "Grain", "higgsfield",
@@ -264,8 +280,8 @@ def infer_auth(app: str, page_text: str) -> str:
 def infer_api_surface(app: str, page_text: str) -> str:
     if app in LIMITED_OR_UNCLEAR_SURFACE:
         return "Unclear / limited public API"
-    if app in GRAPHQL_APPS:
-        return "GraphQL + REST" if app in {"GitHub", "Shopify"} else "GraphQL"
+    if app in API_SURFACE_OVERRIDES:
+        return API_SURFACE_OVERRIDES[app]
     if app in {"Sherlock", "Mermaid CLI", "higgsfield"}:
         return "CLI / package interface"
     if "graphql" in page_text:
@@ -287,6 +303,48 @@ def infer_buildability(app: str, self_serve: str, api_surface: str, auth: str) -
     return "Ready for toolkit", "Documented self-serve API appears suitable for an agent-callable toolkit."
 
 
+def priority_score(row: dict[str, object]) -> int:
+    verdict = str(row["buildability_verdict"])
+    confidence = str(row["confidence"])
+    auth = str(row["auth_method"])
+    api_surface = str(row["api_surface"])
+    mcp_signal = str(row["existing_mcp_signal"])
+    score = 0
+    if verdict == "Ready for toolkit":
+        score += 45
+    elif verdict == "Buildable with auth setup":
+        score += 35
+    elif verdict == "Buildable wrapper":
+        score += 24
+    elif verdict == "Gated / needs outreach":
+        score += 8
+    if confidence == "High":
+        score += 25
+    elif confidence == "Medium":
+        score += 12
+    if auth in {"API key / token", "API key", "API token", "Basic auth", "Bot token"}:
+        score += 15
+    elif "OAuth2" in auth:
+        score += 8
+    if api_surface in {"REST", "GraphQL", "GraphQL + REST"}:
+        score += 10
+    if mcp_signal != "Not found in first pass":
+        score += 5
+    return min(score, 100)
+
+
+def launch_motion(row: dict[str, object]) -> str:
+    verdict = str(row["buildability_verdict"])
+    auth = str(row["auth_method"])
+    if verdict == "Ready for toolkit":
+        return "Build now: self-serve API and simple credential path"
+    if verdict == "Buildable with auth setup":
+        return "Build after OAuth app/scopes are mapped"
+    if verdict == "Buildable wrapper":
+        return "Prototype wrapper, then validate real user demand"
+    return "Qualify first: outreach, partner access, or paid account needed"
+
+
 def classify(row: AppRow) -> dict[str, str | int]:
     evidence_url = EVIDENCE_URLS[row.app]
     fetched, page_text = fetch_probe(evidence_url)
@@ -301,7 +359,7 @@ def classify(row: AppRow) -> dict[str, str | int]:
         confidence = "Low" if row.app in GATED_APPS else "Medium"
     human_review = "yes" if confidence != "High" or row.app in GATED_APPS else "no"
     mcp = EXISTING_MCP.get(row.app, "Not found in first pass")
-    return {
+    classified: dict[str, str | int] = {
         "id": row.id,
         "category": row.category,
         "app": row.app,
@@ -316,6 +374,9 @@ def classify(row: AppRow) -> dict[str, str | int]:
         "confidence": confidence,
         "human_review_needed": human_review,
     }
+    classified["priority_score"] = priority_score(classified)
+    classified["launch_motion"] = launch_motion(classified)
+    return classified
 
 
 VERIFIED_APPS = {
@@ -362,7 +423,9 @@ def summarize(rows: list[dict[str, object]]) -> dict[str, object]:
         r for r in rows
         if r["buildability_verdict"] in {"Ready for toolkit", "Buildable with auth setup"}
         and r["confidence"] == "High"
-    ][:12]
+    ]
+    easy_wins = sorted(easy_wins, key=lambda r: int(r["priority_score"]), reverse=True)[:12]
+    build_queue = sorted(rows, key=lambda r: int(r["priority_score"]), reverse=True)[:10]
     outreach = [r for r in rows if r["buildability_verdict"] == "Gated / needs outreach"][:12]
     return {
         "total_apps": total,
@@ -373,6 +436,16 @@ def summarize(rows: list[dict[str, object]]) -> dict[str, object]:
         "confidence": confidence.most_common(),
         "by_category": {k: dict(v) for k, v in by_category.items()},
         "easy_wins": [r["app"] for r in easy_wins],
+        "build_queue": [
+            {
+                "rank": index,
+                "app": r["app"],
+                "category": r["category"],
+                "priority_score": r["priority_score"],
+                "launch_motion": r["launch_motion"],
+            }
+            for index, r in enumerate(build_queue, start=1)
+        ],
         "outreach_needed": [r["app"] for r in outreach],
     }
 
@@ -426,6 +499,7 @@ def render_html(rows: list[dict[str, object]], verified: list[dict[str, object]]
     top_auth = ", ".join(f"{name} ({count})" for name, count in summary["top_auth_methods"][:4])
     easy = ", ".join(summary["easy_wins"])
     outreach = ", ".join(summary["outreach_needed"])
+    build_queue = list(summary["build_queue"])
     by_cat_rows = [
         {
             "category": category,
@@ -518,6 +592,10 @@ def render_html(rows: list[dict[str, object]], verified: list[dict[str, object]]
     <p><strong>Needs outreach/account setup:</strong> {html.escape(outreach)}.</p>
   </div>
 
+  <h2>Recommended Build Queue</h2>
+  <p>This is the product-ops layer: if 100 candidates come in, the useful output is a ranked build queue, not only a spreadsheet.</p>
+  {table(build_queue, ["rank", "app", "category", "priority_score", "launch_motion"])}
+
   <h2>Agent Workflow</h2>
   <div class="flow">
     <div><strong>1. Input</strong><br><span class="small">100 apps from assignment, category, app, website hint.</span></div>
@@ -542,7 +620,7 @@ def render_html(rows: list[dict[str, object]], verified: list[dict[str, object]]
   </div>
 
   <h2>Full 100-App Table</h2>
-  {table(rows, ["id", "category", "app", "auth_method", "self_serve_vs_gated", "api_surface", "existing_mcp_signal", "buildability_verdict", "confidence", "evidence_url"])}
+  {table(rows, ["id", "category", "app", "auth_method", "self_serve_vs_gated", "api_surface", "existing_mcp_signal", "buildability_verdict", "confidence", "priority_score", "evidence_url"])}
 
   <h2>How to Reproduce</h2>
   <div class="card">

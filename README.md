@@ -16,6 +16,10 @@ This repo contains a deterministic research pipeline for classifying 100 request
 
 The goal is not to pretend the agent is perfect. The goal is to show a repeatable workflow, source-grounded first pass, pattern extraction, and a manual verification loop.
 
+## Differentiator
+
+Most submissions can produce a 100-row table. This one adds a product-ops decision layer: each app gets a `priority_score` and `launch_motion`, turning raw research into a recommended build queue for Composio. That makes the output operationally useful: it separates "build now", "build after OAuth setup", "prototype wrapper", and "qualify through outreach" work.
+
 ## Run
 
 ```bash
